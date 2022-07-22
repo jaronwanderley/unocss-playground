@@ -5,15 +5,17 @@ import { BaseTree, Draggable, obj, BaseNode, Node } from '@he-tree/vue3'
 import '@he-tree/vue3/dist/he-tree-vue3.css'
 
 const flatData = [
-  { text: 'node1', id: 1 },
-  { text: 'node2', id: 2 },
-  { text: 'node1-1', id: 3, pid: 1 },
-  { text: 'node1-2', id: 4, pid: 1 },
-  { text: 'node1-3', id: 5, pid: 1 }
+  { text: 'node1', selected: false, id: 1 },
+  { text: 'node2', selected: false, id: 2 },
+  { text: 'node1-1', selected: false, id: 3, pid: 1 },
+  { text: 'node1-2', selected: false, id: 4, pid: 1 },
+  { text: 'node1-3', selected: false, id: 5, pid: 1 }
 ]
 
 const user = useUserStore()
 const name = $ref(user.savedName)
+
+const selected = $ref(0)
 
 const router = useRouter()
 const go = () => {
@@ -73,20 +75,25 @@ const showDrawer = $ref(false)
     >
       <Draggable :flatData="flatData" idKey="id" parentIdKey="pid">
         <template v-slot="{ node, tree }">
-          <div class="px-3 py-1 bg-slate-100 rounded-2 flex">
-            <div 
-              class="flex items-center px-1 rounded-3 mr-3 hover:bg-slate-400 hover:text-white"
-            >
-              <Icon 
-              v-if="node.$children.length > 0"
-              @click="tree.toggleFold(node)" 
-              :class="node.$folded ? 'i-tabler-chevron-down' : 'i-tabler-chevron-up'"
-              text-sm
-              />
-            </div>
-            <span>
+          <div
+            @click="selected = node.id"
+            :class="{'outline outline-1': selected === node.id}" 
+            class="relative flex items-center p-1 bg-slate-100 rounded-2 flex"
+          >
+            <Icon class="i-tabler-grip-vertical text-sm" />
+            <span ml-1>
               {{ node.text }}
             </span>
+            <div 
+              v-if="node.$children.length > 0"
+              @click="tree.toggleFold(node)" 
+              class="flex absolute right-0 w-6 h-6 items-center justify-center rounded-2 mr-1 hover:bg-slate-400 hover:text-white"
+            >
+              <Icon 
+                :class="node.$folded ? 'i-tabler-chevron-down' : 'i-tabler-chevron-up'"
+                class="text-sm mr-[.5px]"
+              />
+            </div>
           </div>
         </template>
       </Draggable>
