@@ -26,3 +26,9 @@ html.dark {
   width: 100%;
   height: 2px;
 }
+
+.vl-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

@@ -71,7 +71,25 @@ const showDrawer = $ref(false)
         overflow-y-auto
       "
     >
-      <Draggable :flatData="flatData" idKey="id" parentIdKey="pid" />
+      <Draggable :flatData="flatData" idKey="id" parentIdKey="pid">
+        <template v-slot="{ node, tree }">
+          <div class="px-3 py-1 bg-slate-100 rounded-2 flex">
+            <div 
+              class="flex items-center px-1 rounded-3 mr-3 hover:bg-slate-400 hover:text-white"
+            >
+              <Icon 
+              v-if="node.$children.length > 0"
+              @click="tree.toggleFold(node)" 
+              :class="node.$folded ? 'i-tabler-chevron-down' : 'i-tabler-chevron-up'"
+              text-sm
+              />
+            </div>
+            <span>
+              {{ node.text }}
+            </span>
+          </div>
+        </template>
+      </Draggable>
     </div>
   </aside>
 
@@ -107,3 +125,4 @@ const showDrawer = $ref(false)
 meta:
   layout: default
 </route>
+
