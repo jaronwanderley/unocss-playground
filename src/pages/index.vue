@@ -8,8 +8,8 @@ const flatData = [
   { text: 'node1', id: 1 },
   { text: 'node2', id: 2 },
   { text: 'node1-1', id: 3, pid: 1 },
-  { text: 'node1-2', id: 3, pid: 1 },
-  { text: 'node1-3', id: 3, pid: 1 }
+  { text: 'node1-2', id: 4, pid: 1 },
+  { text: 'node1-3', id: 5, pid: 1 }
 ]
 
 const user = useUserStore()
