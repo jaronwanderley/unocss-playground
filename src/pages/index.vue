@@ -46,6 +46,8 @@ const showDrawer = $ref(false)
   ></div>
   <aside
     class="
+      flex
+      flex-col
       w-full
       max-w-80
       z-990
@@ -63,11 +65,12 @@ const showDrawer = $ref(false)
     }"
   >
     <div
+      @click="selected = 0"
       class="
         bg-white
         p-4
         w-full
-        h-full
+        flex-1
         rounded-2xl
         shadow-soft-xl
         overflow-y-auto
@@ -76,7 +79,7 @@ const showDrawer = $ref(false)
       <Draggable :flatData="flatData" idKey="id" parentIdKey="pid">
         <template v-slot="{ node, tree }">
           <div
-            @click="selected = node.id"
+            @click.stop="selected = node.id"
             :class="{'outline outline-1': selected === node.id}" 
             class="relative flex items-center p-1 bg-slate-100 rounded-2 flex"
           >
@@ -86,7 +89,7 @@ const showDrawer = $ref(false)
             </span>
             <div 
               v-if="node.$children.length > 0"
-              @click="tree.toggleFold(node)" 
+              @click.stop="tree.toggleFold(node)" 
               class="flex absolute right-0 w-6 h-6 items-center justify-center rounded-2 mr-1 hover:bg-slate-400 hover:text-white"
             >
               <Icon 
@@ -97,6 +100,11 @@ const showDrawer = $ref(false)
           </div>
         </template>
       </Draggable>
+    </div>
+    <div 
+      v-if="selected > 0"
+      class="p-3 rounded-2xl bg-white mt-3">
+      <div>{{ flatData[selected - 1] }}</div>
     </div>
   </aside>
 
